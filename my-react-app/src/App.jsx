@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const welcome = {
   greeting: "Hi",
   title: "React",
@@ -41,8 +43,12 @@ const App = () => {
       objectID: 1,
     },
   ];
+
+  const [searchTerm, setSearchTerm] = useState("");
+
   const handleChange = (event) => {
     console.log(event);
+    setSearchTerm(event.target.value);
   };
 
   return (
@@ -50,12 +56,17 @@ const App = () => {
       <h1>
         {welcome.greeting}, {getTitle(welcome.title)}
       </h1>
-
       <label htmlFor="search">Search:</label>
-      <input onChange={handleChange} id="search" type="text" />
+      <input
+        value={searchTerm}
+        onChange={handleChange}
+        id="search"
+        type="text"
+      />
+      <hr />
+      searchTerm is: {searchTerm}
 
       <hr />
-
       <List list={stories} />
       <List list={stories} />
     </div>
