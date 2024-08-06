@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 const welcome = {
   greeting: "Hi",
@@ -23,8 +24,45 @@ const List = ({ list }) => {
     );
   });
 };
+const Search = ({ search, onSearch, onChange }) => {
+  Search.propTypes = {
+    search: PropTypes.string,
+    onSearch: PropTypes.func,
+    onChange: PropTypes.func,
+  };
 
-const App = () => {
+  const [searchTerm, setSearchTerm] = useState(search || "");
+
+  const handleChange = (event) => {
+    console.log(event);
+    setSearchTerm(event.target.value);
+    onChange && onChange(event);
+  };
+
+  return (
+    <>
+      <label htmlFor="search">Search:</label>
+      <input
+        value={searchTerm}
+        onChange={handleChange}
+        id="search"
+        type="text"
+      />
+
+      <button
+        onClick={() => {
+          onSearch(searchTerm);
+        }}
+      >
+        search
+      </button>
+      <hr />
+      <div>search for {searchTerm}</div>
+    </>
+  );
+};
+
+function App() {
   const stories = [
     {
       title: "React",
@@ -44,11 +82,8 @@ const App = () => {
     },
   ];
 
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const handleChange = (event) => {
+  const handleSearch = (event) => {
     console.log(event);
-    setSearchTerm(event.target.value);
   };
 
   return (
@@ -56,21 +91,12 @@ const App = () => {
       <h1>
         {welcome.greeting}, {getTitle(welcome.title)}
       </h1>
-      <label htmlFor="search">Search:</label>
-      <input
-        value={searchTerm}
-        onChange={handleChange}
-        id="search"
-        type="text"
-      />
-      <hr />
-      searchTerm is: {searchTerm}
-
+      <Search onSearch={handleSearch} />
       <hr />
       <List list={stories} />
       <List list={stories} />
     </div>
   );
-};
+}
 
 export default App;
