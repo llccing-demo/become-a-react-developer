@@ -11,19 +11,30 @@ const getTitle = (title) => {
 };
 
 const List = ({ list }) => {
-  return list.map((item) => {
-    return (
-      <div key={item.objectID}>
-        <span>
-          <a href={item.url}>{item.title}</a>
-        </span>
-        <span>{item.author}</span>
-        <span>{item.num_comments}</span>
-        <span>{item.points}</span>
-      </div>
-    );
-  });
+  return list.map((item) => <Item key={item.objectID} {...item} />);
 };
+
+const Item = ({ url, title, author, num_comments, points }) => {
+  Item.propTypes = {
+    url: PropTypes.string,
+    title: PropTypes.string,
+    author: PropTypes.string,
+    num_comments: PropTypes.number,
+    points: PropTypes.number,
+  };
+
+  return (
+    <div>
+      <span>
+        <a href={url}>{title}</a>
+      </span>
+      <span>{author}</span>
+      <span>{num_comments}</span>
+      <span>{points}</span>
+    </div>
+  );
+};
+
 const Search = ({ search, onSearch, onChange }) => {
   Search.propTypes = {
     search: PropTypes.string,
