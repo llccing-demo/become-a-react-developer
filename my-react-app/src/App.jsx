@@ -1,13 +1,11 @@
-import { useState } from "react";
-
 const welcome = {
   greeting: "Hi",
   title: "React",
 };
 
-function getTitle(title) {
+const getTitle = (title) => {
   return title;
-}
+};
 
 const list = [
   {
@@ -28,8 +26,8 @@ const list = [
   },
 ];
 
-function List() {
-  return list.map(function (item) {
+const List = () => {
+  return list.map((item) => {
     return (
       <div key={item.objectID}>
         <span>
@@ -41,9 +39,9 @@ function List() {
       </div>
     );
   });
-}
+};
 
-function App() {
+const App = () => {
   return (
     <div>
       <h1>
@@ -56,8 +54,9 @@ function App() {
       <hr />
 
       <List />
+      <List />
     </div>
   );
-}
+};
 
 export default App;
