@@ -82,9 +82,14 @@ function App() {
     },
   ];
 
+  const [searchTerm, setSearchTerm] = useState("");
   const handleSearch = (event) => {
-    console.log(event);
+    setSearchTerm(event);
   };
+
+  const searchedStories = stories.filter((story) => {
+    return story.title.toLowerCase().includes(searchTerm.toLowerCase());
+  });
 
   return (
     <div>
@@ -93,8 +98,7 @@ function App() {
       </h1>
       <Search onSearch={handleSearch} />
       <hr />
-      <List list={stories} />
-      <List list={stories} />
+      <List list={searchedStories} />
     </div>
   );
 }
