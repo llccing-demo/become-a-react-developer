@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 const welcome = {
@@ -31,7 +31,14 @@ const Search = ({ search, onSearch, onChange }) => {
     onChange: PropTypes.func,
   };
 
-  const [searchTerm, setSearchTerm] = useState(search || "");
+  const [searchTerm, setSearchTerm] = useState("");
+  // use this method to update the searchTerm when the search prop changes.
+  useEffect(() => {
+    if (!search) {
+      return;
+    }
+    setSearchTerm(search);
+  }, [search]);
 
   const handleChange = (event) => {
     console.log(event);
@@ -82,7 +89,7 @@ function App() {
     },
   ];
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("React");
   const handleSearch = (event) => {
     setSearchTerm(event);
   };
@@ -96,7 +103,7 @@ function App() {
       <h1>
         {welcome.greeting}, {getTitle(welcome.title)}
       </h1>
-      <Search onSearch={handleSearch} />
+      <Search search={searchTerm} onSearch={handleSearch} />
       <hr />
       <List list={searchedStories} />
     </div>
