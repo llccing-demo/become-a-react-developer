@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useReducer, useCallback } from "react";
 import PropTypes from "prop-types";
+
+const API_ENDPOINT = "https://hn.algolia.com/api/v1/search?query=";
 
 const welcome = {
   greeting: "Hi",
@@ -10,8 +12,18 @@ const getTitle = (title) => {
   return title;
 };
 
-const List = ({ list }) => {
-  return list.map((item) => <Item key={item.objectID} {...item} />);
+const List = ({ list, onRemoveItem }) => {
+  List.propTypes = {
+    list: PropTypes.array,
+    onRemoveItem: PropTypes.func,
+  };
+
+  if (!list) {
+    return null;
+  }
+  return list.map((item) => (
+    <Item key={item.objectID} {...item} onRemoveItem={onRemoveItem} />
+  ));
 };
 
 const useSemiPersistentState = (key, initialState) => {
@@ -24,13 +36,54 @@ const useSemiPersistentState = (key, initialState) => {
   return [value, setValue];
 };
 
-const Item = ({ url, title, author, num_comments, points }) => {
+const storiesReducer = (state, action) => {
+  switch (action.type) {
+    case "STORIES_FETCH_INIT":
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
+    case "STORIES_FETCH_SUCCESS":
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        data: action.payload,
+      };
+    case "STORIES_FETCH_FAILURE":
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
+    case "REMOVE_STORY":
+      return {
+        ...state,
+        data: state.data.filter((story) => action.payload !== story.objectID),
+      };
+    default:
+      throw new Error();
+  }
+};
+
+const Item = ({
+  url,
+  title,
+  author,
+  num_comments,
+  points,
+  objectID,
+  onRemoveItem,
+}) => {
   Item.propTypes = {
     url: PropTypes.string,
     title: PropTypes.string,
     author: PropTypes.string,
     num_comments: PropTypes.number,
     points: PropTypes.number,
+    objectID: PropTypes.number,
+    onRemoveItem: PropTypes.func,
   };
 
   return (
@@ -41,6 +94,15 @@ const Item = ({ url, title, author, num_comments, points }) => {
       <span>{author}</span>
       <span>{num_comments}</span>
       <span>{points}</span>
+      <span>
+        <button
+          onClick={() => {
+            onRemoveItem(objectID);
+          }}
+        >
+          Remove
+        </button>
+      </span>
     </div>
   );
 };
@@ -74,42 +136,53 @@ const InputWithLabel = ({ id, label, value, type = "text", onInputChange }) => {
     <>
       <label htmlFor={id}>{label}:</label>
       <input value={searchTerm} onChange={handleChange} id={id} type={type} />
-
-      <hr />
-      <div>search for {searchTerm}</div>
     </>
   );
 };
 
 function App() {
-  const stories = [
-    {
-      title: "React",
-      url: "https://reactjs.org/",
-      author: "Jordan Walke",
-      num_comments: 3,
-      points: 4,
-      objectID: 0,
-    },
-    {
-      title: "Redux",
-      url: "https://redux.js.org/",
-      author: "Dan Abramov, Andrew Clark",
-      num_comments: 2,
-      points: 5,
-      objectID: 1,
-    },
-  ];
-
   const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "React");
+  const [url, setUrl] = useState(`${API_ENDPOINT}${searchTerm}`);
 
-  const handleSearch = (event) => {
+  const [stories, dispatchStories] = useReducer(storiesReducer, {
+    data: [],
+    isLoading: false,
+    isError: false,
+  });
+
+  const handleFetchStories = useCallback(() => {
+    dispatchStories({ type: "STORIES_FETCH_INIT" });
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((result) => {
+        dispatchStories({
+          type: "STORIES_FETCH_SUCCESS",
+          payload: result.hits,
+        });
+      })
+      .catch(() => dispatchStories({ type: "STORIES_FETCH_FAILURE" }));
+  }, [url]);
+
+  useEffect(() => {
+    handleFetchStories();
+  }, [handleFetchStories]);
+
+  const handleRemoveStory = (object_id) => {
+    console.log('object_id', object_id); 
+    dispatchStories({
+      type: "REMOVE_STORY",
+      payload: object_id,
+    });
+  };
+
+  const handleSearchInput = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const searchedStories = stories.filter((story) => {
-    return story.title.toLowerCase().includes(searchTerm.toLowerCase());
-  });
+  const handleSearchSubmit = () => {
+    setUrl(`${API_ENDPOINT}${searchTerm}`);
+  };
 
   return (
     <div>
@@ -120,10 +193,18 @@ function App() {
         id="search"
         label="Search"
         value={searchTerm}
-        onInputChange={handleSearch}
+        onInputChange={handleSearchInput}
       />
+      <button onClick={handleSearchSubmit} disabled={!searchTerm}>
+        Submit
+      </button>
       <hr />
-      <List list={searchedStories} />
+      {stories.isError && <p>Something went wrong ...</p>}
+      {stories.isLoading ? (
+        <p>loading...</p>
+      ) : (
+        <List list={stories.data} onRemoveItem={handleRemoveStory} />
+      )}
     </div>
   );
 }
