@@ -45,46 +45,36 @@ const Item = ({ url, title, author, num_comments, points }) => {
   );
 };
 
-const Search = ({ search, onSearch, onChange }) => {
-  Search.propTypes = {
-    search: PropTypes.string,
-    onSearch: PropTypes.func,
-    onChange: PropTypes.func,
+const InputWithLabel = ({ id, label, value, type = "text", onInputChange }) => {
+  InputWithLabel.propTypes = {
+    id: PropTypes.string,
+    label: PropTypes.string,
+    value: PropTypes.string,
+    type: PropTypes.string,
+    onInputChange: PropTypes.func,
   };
 
   const [searchTerm, setSearchTerm] = useState("");
   // use this method to update the searchTerm when the search prop changes.
   useEffect(() => {
-    if (!search) {
+    if (!value) {
       return;
     }
-    setSearchTerm(search);
-  }, [search]);
+    setSearchTerm(value);
+  }, [value]);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
-    onChange && onChange(event);
+    onInputChange && onInputChange(event);
   };
 
   return (
-    // this called react fragment, 
+    // this called react fragment,
     // it's a way to group multiple elements without adding extra nodes to the DOM.
     <>
-      <label htmlFor="search">Search:</label>
-      <input
-        value={searchTerm}
-        onChange={handleChange}
-        id="search"
-        type="text"
-      />
+      <label htmlFor={id}>{label}:</label>
+      <input value={searchTerm} onChange={handleChange} id={id} type={type} />
 
-      <button
-        onClick={() => {
-          onSearch(searchTerm);
-        }}
-      >
-        search
-      </button>
       <hr />
       <div>search for {searchTerm}</div>
     </>
@@ -114,7 +104,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "React");
 
   const handleSearch = (event) => {
-    setSearchTerm(event);
+    setSearchTerm(event.target.value);
   };
 
   const searchedStories = stories.filter((story) => {
@@ -126,7 +116,12 @@ function App() {
       <h1>
         {welcome.greeting}, {getTitle(welcome.title)}
       </h1>
-      <Search search={searchTerm} onSearch={handleSearch} />
+      <InputWithLabel
+        id="search"
+        label="Search"
+        value={searchTerm}
+        onInputChange={handleSearch}
+      />
       <hr />
       <List list={searchedStories} />
     </div>
