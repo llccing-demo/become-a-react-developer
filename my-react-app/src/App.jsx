@@ -52,7 +52,6 @@ const Search = ({ search, onSearch, onChange }) => {
   }, [search]);
 
   const handleChange = (event) => {
-    console.log(event);
     setSearchTerm(event.target.value);
     onChange && onChange(event);
   };
@@ -101,13 +100,17 @@ function App() {
   ];
 
   const [searchTerm, setSearchTerm] = useState(
-    localStorage.getItem('search') || 'React'
+    localStorage.getItem("search") || "React"
   );
   const handleSearch = (event) => {
     setSearchTerm(event);
-
-    localStorage.setItem('search', event);
   };
+
+  // Using React useEffect instead of managing the side-effect in the handler
+  // has made the application more robust.
+  useEffect(() => {
+    localStorage.setItem("search", searchTerm);
+  }, [searchTerm]);
 
   const searchedStories = stories.filter((story) => {
     return story.title.toLowerCase().includes(searchTerm.toLowerCase());
