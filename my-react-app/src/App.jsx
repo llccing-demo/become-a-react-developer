@@ -100,9 +100,13 @@ function App() {
     },
   ];
 
-  const [searchTerm, setSearchTerm] = useState("React");
+  const [searchTerm, setSearchTerm] = useState(
+    localStorage.getItem('search') || 'React'
+  );
   const handleSearch = (event) => {
     setSearchTerm(event);
+
+    localStorage.setItem('search', event);
   };
 
   const searchedStories = stories.filter((story) => {
