@@ -70,5 +70,15 @@ link about (init a react project)[https://www.freecodecamp.org/news/how-to-creat
 
 ### Explicit Data fetching with react
 
+useCallback, use this callback function, but only recreate it if certain dependencies change.
+
+useReducer, it's like a more powerful version of useState for complex state management.
+
+useState is like a simple piggy bank. You can add money (increment) or take money out (decrement). It's great for simple operations.
+
+useReducer is like a sophisticated bank account. You can do more complex operations like deposits, withdrawals, applying interest, or paying fees. Each of these operations is an "action" that changes the state (balance) of your account.
+
+useCallback is great for performance optimizations, while useReducer shines in managing complex state logic.
+
 ### Forms in React
 
