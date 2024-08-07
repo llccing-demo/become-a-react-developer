@@ -14,6 +14,16 @@ const List = ({ list }) => {
   return list.map((item) => <Item key={item.objectID} {...item} />);
 };
 
+const useSemiPersistentState = (key, initialState) => {
+  const [value, setValue] = useState(localStorage.getItem(key) || initialState);
+
+  useEffect(() => {
+    localStorage.setItem(key, value);
+  }, [value, key]);
+
+  return [value, setValue];
+};
+
 const Item = ({ url, title, author, num_comments, points }) => {
   Item.propTypes = {
     url: PropTypes.string,
@@ -99,18 +109,11 @@ function App() {
     },
   ];
 
-  const [searchTerm, setSearchTerm] = useState(
-    localStorage.getItem("search") || "React"
-  );
+  const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "React");
+
   const handleSearch = (event) => {
     setSearchTerm(event);
   };
-
-  // Using React useEffect instead of managing the side-effect in the handler
-  // has made the application more robust.
-  useEffect(() => {
-    localStorage.setItem("search", searchTerm);
-  }, [searchTerm]);
 
   const searchedStories = stories.filter((story) => {
     return story.title.toLowerCase().includes(searchTerm.toLowerCase());
