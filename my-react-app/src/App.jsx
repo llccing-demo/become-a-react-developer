@@ -67,6 +67,8 @@ const Search = ({ search, onSearch, onChange }) => {
   };
 
   return (
+    // this called react fragment, 
+    // it's a way to group multiple elements without adding extra nodes to the DOM.
     <>
       <label htmlFor="search">Search:</label>
       <input
