@@ -140,6 +140,28 @@ const InputWithLabel = ({ id, label, value, type = "text", onInputChange }) => {
   );
 };
 
+const SearchForm = ({ searchTerm, onSearchInput, onSearchSubmit }) => {
+  SearchForm.propTypes = {
+    searchTerm: PropTypes.string,
+    onSearchInput: PropTypes.func,
+    onSearchSubmit: PropTypes.func,
+  };
+
+  return (
+    <form onSubmit={onSearchSubmit}>
+      <InputWithLabel
+        id="search"
+        label="Search"
+        value={searchTerm}
+        onInputChange={onSearchInput}
+      />
+      <button type="submit" disabled={!searchTerm}>
+        Submit
+      </button>
+    </form>
+  );
+};
+
 function App() {
   const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "React");
   const [url, setUrl] = useState(`${API_ENDPOINT}${searchTerm}`);
@@ -169,7 +191,7 @@ function App() {
   }, [handleFetchStories]);
 
   const handleRemoveStory = (object_id) => {
-    console.log('object_id', object_id); 
+    console.log("object_id", object_id);
     dispatchStories({
       type: "REMOVE_STORY",
       payload: object_id,
@@ -180,7 +202,8 @@ function App() {
     setSearchTerm(event.target.value);
   };
 
-  const handleSearchSubmit = () => {
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
     setUrl(`${API_ENDPOINT}${searchTerm}`);
   };
 
@@ -189,15 +212,11 @@ function App() {
       <h1>
         {welcome.greeting}, {getTitle(welcome.title)}
       </h1>
-      <InputWithLabel
-        id="search"
-        label="Search"
-        value={searchTerm}
-        onInputChange={handleSearchInput}
+      <SearchForm
+        searchTerm={searchTerm}
+        onSearchInput={handleSearchInput}
+        onSearchSubmit={handleSearchSubmit}
       />
-      <button onClick={handleSearchSubmit} disabled={!searchTerm}>
-        Submit
-      </button>
       <hr />
       {stories.isError && <p>Something went wrong ...</p>}
       {stories.isLoading ? (
