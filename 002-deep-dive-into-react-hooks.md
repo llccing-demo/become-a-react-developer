@@ -5,9 +5,14 @@ React hooks are powerful functions that enable functional components to manage s
 ## Introducing the Function Component
 
 ### Building an App with components
-
 ### Introducing the function component
-### 
+
+one-way data flow.
+
+props and callbacks
+
+### Writing a Function Component
+### Challenge: multi-stage Navbar 
 
 ## Crafting states in functions
 
