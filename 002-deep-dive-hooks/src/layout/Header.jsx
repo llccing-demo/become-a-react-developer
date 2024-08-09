@@ -1,11 +1,12 @@
 import Proptypes from "prop-types";
 import "./Header.css";
 
-function Nav({ items, menuClick, isSubMenu }) {
+function Nav({ items, menuClick, isSubMenu, selected }) {
   Nav.propTypes = {
     items: Proptypes.array,
     menuClick: Proptypes.func,
     isSubMenu: Proptypes.bool,
+    selected: Proptypes.bool,
   };
 
   return (
@@ -17,6 +18,7 @@ function Nav({ items, menuClick, isSubMenu }) {
               <div className="flex flex-col group relative" key={item.key}>
                 <NavItem
                   item={item}
+                  active={selected === item.key}
                   menuClick={() => {
                     menuClick(item);
                   }}
@@ -28,6 +30,7 @@ function Nav({ items, menuClick, isSubMenu }) {
                   <Nav
                     items={item.children}
                     menuClick={menuClick}
+                    selected={selected}
                     isSubMenu={true}
                   />
                 </div>
@@ -38,6 +41,7 @@ function Nav({ items, menuClick, isSubMenu }) {
               <NavItem
                 key={item.key}
                 item={item}
+                active={selected === item.key}
                 menuClick={() => {
                   menuClick(item);
                 }}
@@ -50,13 +54,16 @@ function Nav({ items, menuClick, isSubMenu }) {
   );
 }
 
-function NavItem({ item, menuClick }) {
+function NavItem({ item, active, menuClick }) {
   NavItem.propTypes = {
     item: Proptypes.object,
+    active: Proptypes.bool,
     menuClick: Proptypes.func,
   };
+  console.log('active', active)
+
   return (
-    <li key={item.key}>
+    <li key={item.key} className={active ? "text-red-200" : ""}>
       {/* <a href={item.path} disabled={item.disabled}> */}
       {/* </a> */}
       <button
