@@ -30,7 +30,9 @@ function App() {
   };
   return (
     <>
-      <Header items={menus} menuClick={handleNavigate} />
+      <div className="bg-blue-200 p-10">
+        <Header items={menus} menuClick={handleNavigate} />
+      </div>
     </>
   );
 }
