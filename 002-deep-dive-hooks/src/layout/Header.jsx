@@ -6,7 +6,7 @@ function Nav({ items, menuClick, isSubMenu, selected }) {
     items: Proptypes.array,
     menuClick: Proptypes.func,
     isSubMenu: Proptypes.bool,
-    selected: Proptypes.bool,
+    selected: Proptypes.string,
   };
 
   return (
@@ -60,7 +60,7 @@ function NavItem({ item, active, menuClick }) {
     active: Proptypes.bool,
     menuClick: Proptypes.func,
   };
-  console.log('active', active)
+  // console.log('active', active)
 
   return (
     <li key={item.key} className={active ? "text-red-200" : ""}>
