@@ -1,9 +1,9 @@
 import { useState } from "react";
 import "./App.css";
 import Proptypes from "prop-types";
-import Header from "./layout/Header";
+import Header, { SearchNav } from "./layout/Header";
 
-const menus = [
+const MENUS_DATA = [
   { key: "home", label: "Home", path: "/" },
   {
     key: "product",
@@ -28,12 +28,25 @@ const menus = [
 ];
 
 function App() {
+  const [menus, setMenus] = useState(MENUS_DATA);
   const [curRoute, setCurRoute] = useState("Home");
 
   const handleNavigate = (item) => {
     console.log(item);
     setCurRoute(item.key);
     // window.location.href = item.path;
+  };
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    if (!value) {
+      setMenus(MENUS_DATA);
+      return;
+    }
+    const filters = MENUS_DATA.filter(
+      (item) => item.key.includes(value.toLowerCase())
+    );
+    setMenus(filters);
   };
 
   const Counter = ({ value, onAddClick }) => {
@@ -77,7 +90,13 @@ function App() {
   return (
     <>
       <div className="bg-blue-200 p-10">
-        <Header items={menus} menuClick={handleNavigate} selected={curRoute} />
+        <SearchNav onSearchChange={handleSearchChange}>
+          <Header
+            items={menus}
+            menuClick={handleNavigate}
+            selected={curRoute}
+          />
+        </SearchNav>
 
         {curRoute === "home" ? <HomeCounter /> : false}
         {curRoute === "about" ? <AboutCounter /> : false}

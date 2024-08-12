@@ -77,4 +77,17 @@ function NavItem({ item, active, menuClick }) {
   );
 }
 
+export function SearchNav({ onSearchChange, children }) {
+  SearchNav.propTypes = {
+    onSearchChange: Proptypes.func,
+    children: Proptypes.node
+  }
+  return (
+    <div className="flex gap-4">
+      <input className="px-5 py-3" type="text" onChange={onSearchChange} />
+      {children}
+    </div>
+  );
+}
+
 export default Nav;

@@ -18,6 +18,10 @@ props and callbacks
 
 ## Hooking into React
 
+Fiber in React refers to the internal reconciliation algorithm introduced in React 16. It's a complete rewrite of React's core algorithm, designed to improve performance and enable new features.
+
+Fiber, includes two parts, WorkInProgress and Current.
+
 ## Use state to jumpstaart compnents
 
 ## use Effect to handle side effects
