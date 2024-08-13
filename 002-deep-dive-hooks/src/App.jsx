@@ -2,6 +2,8 @@ import { useState } from "react";
 import "./App.css";
 import Proptypes from "prop-types";
 import Header, { SearchNav } from "./layout/Header";
+import Avatar from './layout/Avatar'
+import Tooltip from "./layout/Tooltip";
 
 const MENUS_DATA = [
   { key: "home", label: "Home", path: "/" },
@@ -96,6 +98,9 @@ function App() {
             menuClick={handleNavigate}
             selected={curRoute}
           />
+          <Tooltip tooltip={<div>This is a tooltip</div>}>
+            <Avatar username={'Admin'} />
+          </Tooltip>
         </SearchNav>
 
         {curRoute === "home" ? <HomeCounter /> : false}

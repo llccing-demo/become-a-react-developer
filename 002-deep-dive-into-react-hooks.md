@@ -24,7 +24,12 @@ Fiber, includes two parts, WorkInProgress and Current.
 
 ## Use state to jumpstaart compnents
 
+why the hook return an array rather than an object. 
+it's easy to destructure the array. you don't need to remember the name in the object.
+
 ## use Effect to handle side effects
+
+This highlights an important aspect of React's design: if our parent has it, we can have it. This is one of the most basic and effective behaviors we rely on when designing a React app.
 
 ## use Memo to boost performance
 
