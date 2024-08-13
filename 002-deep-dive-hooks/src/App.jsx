@@ -1,9 +1,11 @@
 import { useState } from "react";
 import "./App.css";
-import Proptypes from "prop-types";
 import Header, { SearchNav } from "./layout/Header";
-import Avatar from './layout/Avatar'
+import Avatar from "./layout/Avatar";
 import Tooltip from "./layout/Tooltip";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import QuizPage from "./pages/QuizPage";
 
 const MENUS_DATA = [
   { key: "home", label: "Home", path: "/" },
@@ -45,52 +47,13 @@ function App() {
       setMenus(MENUS_DATA);
       return;
     }
-    const filters = MENUS_DATA.filter(
-      (item) => item.key.includes(value.toLowerCase())
+    const filters = MENUS_DATA.filter((item) =>
+      item.key.includes(value.toLowerCase())
     );
     setMenus(filters);
   };
-
-  const Counter = ({ value, onAddClick }) => {
-    Counter.propTypes = {
-      value: Proptypes.number,
-      onAddClick: Proptypes.func,
-    };
-    return (
-      <>
-        <p>current value {value}</p>
-        <button onClick={onAddClick}>Add</button>
-      </>
-    );
-  };
-
-  const AboutCounter = () => {
-    const [value, setValue] = useState(0);
-    const handleAddClick = () => {
-      setValue(value + 1);
-    };
-    return (
-      <>
-        <h1>This is Page About</h1>
-        <Counter value={value} onAddClick={handleAddClick} />
-      </>
-    );
-  };
-  const HomeCounter = () => {
-    const [value, setValue] = useState(0);
-    const handleAddClick = () => {
-      setValue(value + 1);
-    };
-    return (
-      <>
-        <h1>This is Page Home</h1>
-        <Counter value={value} onAddClick={handleAddClick} />
-      </>
-    );
-  };
-
   return (
-    <>
+    <Router>
       <div className="bg-blue-200 p-10">
         <SearchNav onSearchChange={handleSearchChange}>
           <Header
@@ -99,14 +62,20 @@ function App() {
             selected={curRoute}
           />
           <Tooltip tooltip={<div>This is a tooltip</div>}>
-            <Avatar username={'Admin'} />
+            <Avatar username={"Admin"} />
           </Tooltip>
         </SearchNav>
+        <nav>
+          <Link to="/">Home</Link>
+          <Link to="/quiz">Quiz</Link>
+        </nav>
 
-        {curRoute === "home" ? <HomeCounter /> : false}
-        {curRoute === "about" ? <AboutCounter /> : false}
+        <Routes>
+          <Route path="/" element={<HomePage curRoute={curRoute} />} />
+          <Route path="/quiz" element={<QuizPage />} />
+        </Routes>
       </div>
-    </>
+    </Router>
   );
 }
 
