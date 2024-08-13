@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 const QUESTIONS = [
   {
@@ -20,27 +20,29 @@ const QUESTIONS = [
 
 function QuizPage() {
   const [index, setIndex] = useState(0);
-  const [curQuestion, setCurQuestion] = useState(QUESTIONS[index]);
   const [isFinish, setIsFinish] = useState(false);
   const [score, setScore] = useState(0);
+  const curQuestion = QUESTIONS[index];
 
   const finalText = () => {
     return `Quiz completed! You scored ${score} out of ${QUESTIONS.length}.`;
   };
 
-  const handleClick = (answer) => {
-    console.log("click", answer);
-    if (index === QUESTIONS.length - 1) {
-      setIsFinish(true);
-    }
+  const handleClick = useCallback(
+    (answer) => {
+      if (curQuestion.answers == curQuestion.options.indexOf(answer)) {
+        setScore((pre) => pre + 1);
+      }
+      const newIdx = index + 1;
+      if (newIdx >= QUESTIONS.length) {
+        setIsFinish(true);
+      } else {
+        setIndex(newIdx);
+      }
+    },
+    [index, curQuestion]
+  );
 
-    if (curQuestion.answers == curQuestion.options.indexOf(answer)) {
-      setScore((pre) => pre + 1);
-    }
-    const newIdx = index + 1;
-    setIndex(newIdx);
-    setCurQuestion(QUESTIONS[newIdx]);
-  };
 
   return (
     <>
