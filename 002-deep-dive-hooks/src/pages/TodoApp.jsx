@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import Proptypes from "prop-types";
+import { useEffect, useState } from "react";
 function TodoApp() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
