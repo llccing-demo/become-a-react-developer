@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { debounce } from "lodash";
 
 const fruits = [
   "apple",
@@ -8,6 +9,17 @@ const fruits = [
   "strawberry",
   "pineapple",
 ];
+
+const customDebounce = (fn, time) => {
+  let timer;
+
+  return (...args) => {
+    clearTimeout(timer);
+    setTimeout(() => {
+      fn.apply(this, args);
+    }, time);
+  };
+};
 
 function FruitSearchApp() {
   const [text, setText] = useState("");
@@ -24,18 +36,26 @@ function FruitSearchApp() {
     return fruits.filter((item) => item.includes(query));
   }, [query]);
 
-  const handleChange = (e) => {
-    setText(e.target.value);
-  };
+  // const callInDebounce = debounce((t) => {
+  //   setQuery(t);
+  // }, 300);
 
-  const handleSubmit = () => {
-    setQuery(text);
+  const callInDebounce = useMemo(() => {
+    return customDebounce((t) => {
+    // return debounce((t) => {
+      setQuery(t);
+    }, 300);
+  }, []);
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setText(value);
+    callInDebounce(value);
   };
 
   return (
     <>
-      <input type="text" onChange={handleChange} />
-      <button onClick={handleSubmit}>Query</button>
+      <input type="text" value={text} onChange={handleChange} />
       <hr />
       {matched.join(",")}
     </>
