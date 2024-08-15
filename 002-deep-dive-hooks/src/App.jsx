@@ -8,6 +8,7 @@ import HomePage from "./pages/HomePage";
 import QuizPage from "./pages/QuizPage";
 import TodoApp from "./pages/TodoApp";
 import FruitSearchApp from "./pages/FruitSearchApp";
+import TaskApp from "./pages/TaskApp";
 
 const MENUS_DATA = [
   { key: "home", label: "Home", path: "/" },
@@ -73,6 +74,7 @@ function App() {
         <Link to="/quiz">Quiz</Link>
         <Link to="/todo">TODO App</Link>
         <Link to="/search-fruit">search fruit</Link>
+        <Link to="/task">Task App</Link>
       </nav>
 
       <Routes>
@@ -80,6 +82,7 @@ function App() {
         <Route path="/quiz" element={<QuizPage />} />
         <Route path="/todo" element={<TodoApp />} />
         <Route path="/search-fruit" element={<FruitSearchApp />} />
+        <Route path="/task" element={<TaskApp />} />
       </Routes>
     </Router>
   );
