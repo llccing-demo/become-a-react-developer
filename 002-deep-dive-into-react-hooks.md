@@ -41,6 +41,8 @@ With the introduction of useEffect in React 18, effects are now passive by defau
 
 ## use Memo to boost performance
 
+useMemo hook that allows us to reuse the previous assignment in an update.
+
 ## use Context to cover an area
 
 ## use Ref to hide stuff

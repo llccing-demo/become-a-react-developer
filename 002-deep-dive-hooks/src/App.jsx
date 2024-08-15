@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import QuizPage from "./pages/QuizPage";
 import TodoApp from "./pages/TodoApp";
+import FruitSearchApp from "./pages/FruitSearchApp";
 
 const MENUS_DATA = [
   { key: "home", label: "Home", path: "/" },
@@ -71,12 +72,14 @@ function App() {
         <Link to="/">Home</Link>
         <Link to="/quiz">Quiz</Link>
         <Link to="/todo">TODO App</Link>
+        <Link to="/search-fruit">search fruit</Link>
       </nav>
 
       <Routes>
         <Route path="/" element={<HomePage curRoute={curRoute} />} />
         <Route path="/quiz" element={<QuizPage />} />
         <Route path="/todo" element={<TodoApp />} />
+        <Route path="/search-fruit" element={<FruitSearchApp />} />
       </Routes>
     </Router>
   );
