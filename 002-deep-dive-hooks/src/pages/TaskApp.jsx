@@ -1,14 +1,24 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 function TaskApp() {
   const [tasks, setTasks] = useState([]);
+  const [displayTasks, setDisplayTasks] = useState([]);
   const [text, setText] = useState("");
 
+  const [filterAll, filterCompleted, filterIncompleted] = useMemo(() => {
+    const all = tasks;
+    const completed = tasks.filter(item => item.checked)
+    const incompleted = tasks.filter(item => !item.checked)
+    return [all, completed, incompleted]
+  }, [tasks])
+
   const [allCount, completedCount, incompletedCount] = useMemo(() => {
-    const all = tasks.length;
-    const comp = tasks.filter((item) => item.checked).length;
-    return [all, comp, all - comp];
-  }, [tasks]);
+    return [filterAll.length, filterCompleted.length, filterIncompleted.length]
+  }, [filterCompleted]);
+
+  useEffect(() => {
+    setDisplayTasks(tasks)
+  }, [tasks])
 
   const handleAddTask = () => {
     const obj = {
@@ -31,16 +41,15 @@ function TaskApp() {
 
   const handleFilter = (type) => {
     if (type === "all") {
-      return tasks;
+      setDisplayTasks(tasks)
     } else if (type === "completed") {
-      return tasks.filter((item) => item.checked);
+      setDisplayTasks(filterCompleted)
     } else {
-      return tasks.filter((item) => !item.checked);
+      setDisplayTasks(filterIncompleted)
     }
   };
 
   return (
-    // bg
     <div className="bg-gradient-to-r from-purple-100 to-green-300 p-10">
       <div className="bg-blue-200 max-w-screen-sm m-auto p-5">
         <h1 className="text-blue-500 font-bold text-2xl text-center">
@@ -82,7 +91,7 @@ function TaskApp() {
           </div>
 
           <div className="flex flex-col gap-4">
-            {tasks.map((task) => (
+            {displayTasks.map((task) => (
               <div key={task.text}>
                 <input
                   type="checkbox"
