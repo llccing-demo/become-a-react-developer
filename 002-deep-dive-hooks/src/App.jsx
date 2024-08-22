@@ -10,6 +10,7 @@ import TodoApp from "./pages/TodoApp";
 import FruitSearchApp from "./pages/FruitSearchApp";
 import TaskApp from "./pages/TaskApp";
 import TablePage from "./pages/table-page/TablePage";
+import ShoppingCartPage from "./pages/shopping-cart/ShoppingCartPage";
 
 const MENUS_DATA = [
   { key: "home", label: "Home", path: "/" },
@@ -77,6 +78,7 @@ function App() {
         <Link to="/search-fruit">search fruit</Link>
         <Link to="/task">Task App</Link>
         <Link to="/table">Table</Link>
+        <Link to="/shopping-cart">Shopping Cart</Link>
       </nav>
 
       <Routes>
@@ -86,6 +88,7 @@ function App() {
         <Route path="/search-fruit" element={<FruitSearchApp />} />
         <Route path="/task" element={<TaskApp />} />
         <Route path="/table" element={<TablePage />} />
+        <Route path="/shopping-cart" element={<ShoppingCartPage />} />
       </Routes>
     </Router>
   );

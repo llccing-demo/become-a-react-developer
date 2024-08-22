@@ -45,6 +45,8 @@ useMemo hook that allows us to reuse the previous assignment in an update.
 
 ## use Context to cover an area
 
+use Context to share data between components.
+
 ## use Ref to hide stuff
 
 ## use Custom hooks to reuse logic 
