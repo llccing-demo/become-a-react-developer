@@ -11,6 +11,7 @@ import FruitSearchApp from "./pages/FruitSearchApp";
 import TaskApp from "./pages/TaskApp";
 import TablePage from "./pages/table-page/TablePage";
 import ShoppingCartPage from "./pages/shopping-cart/ShoppingCartPage";
+import MenuApp from "./pages/MenuApp";
 
 const MENUS_DATA = [
   { key: "home", label: "Home", path: "/" },
@@ -79,6 +80,7 @@ function App() {
         <Link to="/task">Task App</Link>
         <Link to="/table">Table</Link>
         <Link to="/shopping-cart">Shopping Cart</Link>
+        <Link to="/menu">Menu</Link>
       </nav>
 
       <Routes>
@@ -89,6 +91,7 @@ function App() {
         <Route path="/task" element={<TaskApp />} />
         <Route path="/table" element={<TablePage />} />
         <Route path="/shopping-cart" element={<ShoppingCartPage />} />
+        <Route path="/menu" element={<MenuApp />} />
       </Routes>
     </Router>
   );

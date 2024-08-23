@@ -49,4 +49,7 @@ use Context to share data between components.
 
 ## use Ref to hide stuff
 
+
+with forwardRef and useImperativeHandle, we add a ref to a function component.
+
 ## use Custom hooks to reuse logic 
