@@ -12,6 +12,7 @@ import TaskApp from "./pages/TaskApp";
 import TablePage from "./pages/table-page/TablePage";
 import ShoppingCartPage from "./pages/shopping-cart/ShoppingCartPage";
 import MenuApp from "./pages/MenuApp";
+import FeedbackPage from "./pages/FeedbackPage";
 
 const MENUS_DATA = [
   { key: "home", label: "Home", path: "/" },
@@ -81,6 +82,7 @@ function App() {
         <Link to="/table">Table</Link>
         <Link to="/shopping-cart">Shopping Cart</Link>
         <Link to="/menu">Menu</Link>
+        <Link to="/feedback">Feedback</Link>
       </nav>
 
       <Routes>
@@ -92,6 +94,7 @@ function App() {
         <Route path="/table" element={<TablePage />} />
         <Route path="/shopping-cart" element={<ShoppingCartPage />} />
         <Route path="/menu" element={<MenuApp />} />
+        <Route path="/feedback" element={<FeedbackPage />} />
       </Routes>
     </Router>
   );
