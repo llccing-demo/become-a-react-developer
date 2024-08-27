@@ -5,6 +5,7 @@ React hooks are powerful functions that enable functional components to manage s
 ## Introducing the Function Component
 
 ### Building an App with components
+
 ### Introducing the function component
 
 one-way data flow.
@@ -12,7 +13,8 @@ one-way data flow.
 props and callbacks
 
 ### Writing a Function Component
-### Challenge: multi-stage Navbar 
+
+### Challenge: multi-stage Navbar
 
 ## Crafting states in functions
 
@@ -24,7 +26,7 @@ Fiber, includes two parts, WorkInProgress and Current.
 
 ## Use state to jumpstaart compnents
 
-why the hook return an array rather than an object. 
+why the hook return an array rather than an object.
 it's easy to destructure the array. you don't need to remember the name in the object.
 
 ## use Effect to handle side effects
@@ -49,7 +51,14 @@ use Context to share data between components.
 
 ## use Ref to hide stuff
 
-
 with forwardRef and useImperativeHandle, we add a ref to a function component.
 
-## use Custom hooks to reuse logic 
+## use Custom hooks to reuse logic
+
+Overview of React Hooks
+
+- useState, it use to manage state in a functional component.
+- useEffect, it use to manage side effects in a functional component.
+- useMemo, it use to optimize performance in a functional component.
+- useContext, it use to share data between components.
+- useRef, it use to access the DOM or React elements.
