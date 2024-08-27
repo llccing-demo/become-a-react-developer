@@ -1,24 +1,29 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import { useClickOutside } from "./utils/useClickOutside";
 
 function MenuApp() {
   const [menuOpen, setMenuOpen] = useState(true);
   const ref = useRef(null);
 
-  useEffect(() => {
-    const listen = (e) => {
-      if (!ref.current) return;
+  // useEffect(() => {
+  //   const listen = (e) => {
+  //     if (!ref.current) return;
 
-      if (!ref.current.contains(e.target)) {
-        setMenuOpen(false);
-      }
-    };
+  //     if (!ref.current.contains(e.target)) {
+  //       setMenuOpen(false);
+  //     }
+  //   };
 
-    window.addEventListener("mousedown", listen);
+  //   window.addEventListener("mousedown", listen);
 
-    return () => {
-      window.removeEventListener("mousedown", listen);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("mousedown", listen);
+  //   };
+  // }, []);
+  useClickOutside(ref, () => {
+    console.log('callback on click outside')
+    setMenuOpen(false)
+  })
 
   return (
     <>
