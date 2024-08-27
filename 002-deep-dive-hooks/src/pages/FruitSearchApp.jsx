@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
-import { debounce } from "lodash";
+// import { debounce } from "lodash";
+import { useDebounce } from "./utils/useDebounce";
 
 const fruits = [
   "apple",
@@ -10,20 +11,21 @@ const fruits = [
   "pineapple",
 ];
 
-const customDebounce = (fn, time) => {
-  let timer;
+// const customDebounce = (fn, time) => {
+//   let timer;
 
-  return (...args) => {
-    clearTimeout(timer);
-    setTimeout(() => {
-      fn.apply(this, args);
-    }, time);
-  };
-};
+//   return (...args) => {
+//     clearTimeout(timer);
+//     setTimeout(() => {
+//       fn.apply(this, args);
+//     }, time);
+//   };
+// };
 
 function FruitSearchApp() {
   const [text, setText] = useState("");
-  const [query, setQuery] = useState("");
+  // const [query, setQuery] = useState("");
+  const query = useDebounce(text, 300);
 
   // each type in input, this will run again.
   // const matched = fruits.filter((item) => {
@@ -40,17 +42,17 @@ function FruitSearchApp() {
   //   setQuery(t);
   // }, 300);
 
-  const callInDebounce = useMemo(() => {
-    return customDebounce((t) => {
-    // return debounce((t) => {
-      setQuery(t);
-    }, 300);
-  }, []);
+  // const callInDebounce = useMemo(() => {
+  //   return customDebounce((t) => {
+  //     // return debounce((t) => {
+  //     setQuery(t);
+  //   }, 300);
+  // }, []);
 
   const handleChange = (e) => {
     const value = e.target.value;
     setText(value);
-    callInDebounce(value);
+    // callInDebounce(value);
   };
 
   return (
