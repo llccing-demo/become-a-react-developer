@@ -13,6 +13,7 @@ import TablePage from "./pages/table-page/TablePage";
 import ShoppingCartPage from "./pages/shopping-cart/ShoppingCartPage";
 import MenuApp from "./pages/MenuApp";
 import FeedbackPage from "./pages/FeedbackPage";
+import { ColorPaletteApp } from "./pages/color-palette/ColorPalette";
 
 const MENUS_DATA = [
   { key: "home", label: "Home", path: "/" },
@@ -83,6 +84,7 @@ function App() {
         <Link to="/shopping-cart">Shopping Cart</Link>
         <Link to="/menu">Menu</Link>
         <Link to="/feedback">Feedback</Link>
+        <Link to="/color-palette">Color Palette</Link>
       </nav>
 
       <Routes>
@@ -95,6 +97,7 @@ function App() {
         <Route path="/shopping-cart" element={<ShoppingCartPage />} />
         <Route path="/menu" element={<MenuApp />} />
         <Route path="/feedback" element={<FeedbackPage />} />
+        <Route path="/color-palette" element={<ColorPaletteApp />} />
       </Routes>
     </Router>
   );
